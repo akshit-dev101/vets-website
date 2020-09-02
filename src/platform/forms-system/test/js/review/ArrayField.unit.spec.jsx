@@ -152,7 +152,9 @@ describe('Schemaform review <ArrayField>', () => {
     );
 
     tree.getMountedInstance().handleAdd();
-    expect(tree.everySubTree('h3')[0].text()).to.equal('New Item name');
+    expect(tree.everySubTree('.schemaform-array-row-title')[0].text()).to.equal(
+      'New Item name',
+    );
     expect(tree.everySubTree('button')[2].text()).to.equal(
       'Add Another Item name',
     );
