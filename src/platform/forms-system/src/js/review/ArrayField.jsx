@@ -61,7 +61,7 @@ class ArrayField extends React.Component {
     return schema.additionalItems;
   }
 
-  scrollToTop() {
+  scrollToTop(callback) {
     setTimeout(() => {
       // Hacky; won’t work if the array field is used in two pages and one isn’t
       //  a BasicArrayField nor if the array field is used in three pages.
@@ -76,6 +76,9 @@ class ArrayField extends React.Component {
           offset: -60,
         },
       );
+      if (typeof callback === 'function') {
+        callback();
+      }
     }, 100);
   }
 
@@ -129,7 +132,7 @@ class ArrayField extends React.Component {
   /*
    * Clicking Remove when editing an item
    */
-  handleRemove(indexToRemove) {
+  handleRemove(indexToRemove, fieldName) {
     const { path, formData } = this.props;
     const newState = _.assign(this.state, {
       items: this.state.items.filter((val, index) => index !== indexToRemove),
@@ -139,7 +142,7 @@ class ArrayField extends React.Component {
     });
     this.setState(newState, () => {
       this.props.setData(_.set(path, this.state.items, formData));
-      this.scrollToTop();
+      this.scrollToTop(() => focusElement(`.${fieldName} .add-btn`));
     });
   }
 
@@ -164,10 +167,10 @@ class ArrayField extends React.Component {
    * and data is already saved through handleSetData, so we just need to change
    * the edting state
    */
-  handleSave(index) {
+  handleSave(index, fieldName) {
     const newEditingArray = _.set(index, false, this.state.editing);
     this.setState({ editing: newEditingArray }, () => {
-      this.scrollToTop();
+      this.scrollToTop(() => focusElement(`.${fieldName}-${index} .edit-btn`));
     });
   }
 
@@ -198,7 +201,11 @@ class ArrayField extends React.Component {
     const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
 
     return (
-      <div className={itemsNeeded ? 'schemaform-review-array-warning' : null}>
+      <div
+        className={`${
+          itemsNeeded ? 'schemaform-review-array-warning' : ''
+        } ${fieldName}`}
+      >
         {title && (
           <div className="form-review-panel-page-header-row">
             <h3 className="form-review-panel-page-header">{title}</h3>
@@ -230,7 +237,11 @@ class ArrayField extends React.Component {
                   >
                     <div className="small-12 columns va-growable-expanded">
                       {isLast ? (
-                        <h4 className="schemaform-array-row-title vads-u-font-size--h5">
+                        <h4
+                          className="schemaform-array-row-title vads-u-font-size--h5 va-u-outline--none"
+                          tabIndex="-1"
+                          ref={focusElement}
+                        >
                           New {uiOptions.itemName || 'Item'}
                         </h4>
                       ) : null}
@@ -247,7 +258,7 @@ class ArrayField extends React.Component {
                         onBlur={this.props.onBlur}
                         onChange={data => this.handleSetData(index, data)}
                         onEdit={() => this.handleEdit(index, !isEditing)}
-                        onSubmit={() => this.handleSave(index)}
+                        onSubmit={() => this.handleSave(index, fieldName)}
                       >
                         <div className="row small-collapse">
                           <div className="small-6 left columns">
@@ -258,7 +269,9 @@ class ArrayField extends React.Component {
                               <button
                                 type="button"
                                 className="usa-button-secondary float-right"
-                                onClick={() => this.handleRemove(index)}
+                                onClick={() =>
+                                  this.handleRemove(index, fieldName)
+                                }
                               >
                                 Remove
                               </button>
@@ -272,7 +285,10 @@ class ArrayField extends React.Component {
               );
             }
             return (
-              <div key={index} className="va-growable-background">
+              <div
+                key={index}
+                className={`va-growable-background ${fieldName}-${index}`}
+              >
                 <div className="row small-collapse">
                   <SchemaForm
                     reviewMode
@@ -307,7 +323,7 @@ class ArrayField extends React.Component {
                 <button
                   type="button"
                   disabled={addAnotherDisabled}
-                  className="edit-btn primary-outline"
+                  className="add-btn primary-outline"
                   onClick={() => this.handleAdd()}
                 >
                   {uiOptions.itemName
