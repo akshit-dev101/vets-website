@@ -584,3 +584,7 @@ img[data-srcset] {
   display: block;
   clear: both;
 }
+
+.va-u-outline--none:focus {
+  outline: none;
+}
