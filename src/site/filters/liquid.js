@@ -1,3 +1,5 @@
+const phoneNumberArrayToObject = require('./phoneNumberArrayToObject');
+
 const moment = require('moment');
 const converter = require('number-to-words');
 const liquid = require('tinyliquid');
@@ -390,6 +392,16 @@ module.exports = function registerFilters() {
     return fieldLink;
   };
 
+  liquid.filters.accessibleNumber = data => {
+    if (data) {
+      return data
+        .split('')
+        .join(' ')
+        .replace(/ -/g, '.');
+    }
+    return null;
+  };
+
   liquid.filters.deriveLastBreadcrumbFromPath = (
     breadcrumbs,
     string,
@@ -463,4 +475,6 @@ module.exports = function registerFilters() {
 
   // find out if date is in the past
   liquid.filters.isPastDate = contentDate => moment().diff(contentDate, 'days');
+
+  liquid.filters.phoneNumberArrayToObject = phoneNumberArrayToObject;
 };
