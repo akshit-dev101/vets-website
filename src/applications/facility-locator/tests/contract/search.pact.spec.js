@@ -20,7 +20,7 @@ const interaction = {
       bbox: bounds,
       type: 'pharmacy',
       page: 1,
-      per_page: 1,
+      per_page: 10,
     },
   },
   willRespondWith: {
