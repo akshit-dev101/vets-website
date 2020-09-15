@@ -6,7 +6,6 @@ import sinon from 'sinon';
 
 const bounds = ['-112.54', '32.53', '-111.04', '34.03'];
 
-/* eslint-disable camelcase */
 const interaction = {
   state: 'facilities: ccp data exists',
   uponReceiving: 'a request for ccp data',
@@ -20,6 +19,7 @@ const interaction = {
       'bbox[]': bounds,
       type: 'pharmacy',
       page: '1',
+      // eslint-disable-next-line camelcase
       per_page: '10',
       trim: 'true',
     },
