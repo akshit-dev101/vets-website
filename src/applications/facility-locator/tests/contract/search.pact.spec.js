@@ -31,20 +31,20 @@ const interaction = {
         id: '1972660348',
         type: 'provider',
         attributes: {
-          acc_new_patients: 'false',
+          accNewPatients: 'false',
           address: {
             street: '2750 E GERMANN RD',
             city: 'CHANDLER',
             state: 'AZ',
             zip: '85249',
           },
-          caresite_phone: '4808122942',
+          caresitePhone: '4808122942',
           email: 'ENROLLM@WAL-MART.COM',
           gender: 'NotSpecified',
           lat: 33.281291,
           long: -111.793486,
           name: 'WAL-MART',
-          unique_id: '1972660348',
+          uniqueId: '1972660348',
         },
         relationships: {
           specialties: {
