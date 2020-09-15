@@ -6,10 +6,7 @@ import environment from 'platform/utilities/environment';
 // export default LiveApi;
 
 const getAPI = () => {
-  // eslint-disable-next-line no-console
-  console.log('window.disableMockLocatorApi', window.disableMockLocatorApi);
-
-  return !window.disableMockLocatorApi &&
+  return !window.Mocha &&
     (environment.isLocalhost() || window.Cypress) &&
     !environment.API_URL.includes('review.vetsgov')
     ? MockApi

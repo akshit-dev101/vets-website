@@ -109,9 +109,6 @@ export const fetchLocations = async (
   dispatch,
 ) => {
   try {
-    // eslint-disable-next-line no-console
-    console.log('in fetchLocations, LocatorApi is', LocatorApi);
-
     const data = await LocatorApi.searchWithBounds(
       address,
       bounds,
