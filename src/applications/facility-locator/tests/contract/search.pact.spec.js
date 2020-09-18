@@ -73,7 +73,7 @@ contractTest('Facility Locator', 'VA.gov API', mockApi => {
 
     context('facilities: ccp data exists', () => {
       it('responds with status 200 for pharmacy', async () => {
-        mockApi.addInteraction(interaction);
+        await mockApi().addInteraction(interaction);
         await fetchLocations(address, bounds, 'pharmacy', null, 1, dispatch);
       });
     });
