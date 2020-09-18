@@ -67,10 +67,6 @@ const dispatch = sinon.stub();
 
 contractTest('Facility Locator', 'VA.gov API', mockApi => {
   describe('GET /v1/facilities/ccp', () => {
-    before(() => {
-      window.disableMockLocatorApi = true;
-    });
-
     context('facilities: ccp data exists', () => {
       it('responds with status 200 for pharmacy', async () => {
         await mockApi().addInteraction(interaction);
