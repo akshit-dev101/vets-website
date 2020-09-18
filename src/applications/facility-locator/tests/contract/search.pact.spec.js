@@ -5,9 +5,10 @@ import { eachLike } from '@pact-foundation/pact/dsl/matchers';
 import sinon from 'sinon';
 
 const bounds = ['-112.54', '32.53', '-111.04', '34.03'];
+const address = 'South Gilbert Road, Chandler, Arizona 85286, United States';
 
 const interaction = {
-  state: 'facilities: ccp data exists',
+  state: 'ccp data exists',
   uponReceiving: 'a request for ccp data',
   withRequest: {
     method: 'GET',
@@ -16,6 +17,7 @@ const interaction = {
       'X-Key-Inflection': 'camel',
     },
     query: {
+      address,
       'bbox[]': bounds,
       type: 'pharmacy',
       page: '1',
@@ -72,7 +74,7 @@ contractTest('Facility Locator', 'VA.gov API', mockApi => {
     context('facilities: ccp data exists', () => {
       it('responds with status 200 for pharmacy', async () => {
         mockApi.addInteraction(interaction);
-        await fetchLocations(null, bounds, 'pharmacy', null, 1, dispatch);
+        await fetchLocations(address, bounds, 'pharmacy', null, 1, dispatch);
       });
     });
   });
